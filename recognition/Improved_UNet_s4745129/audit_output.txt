@@ -1,0 +1,111 @@
+
+=== train: file audit ===
+Images: 11460; masks: 11460
+Patients (31): ['004', '005', '006', '007', '008', '009', '010', '011', '012', '013', '014', '015', '016', '017', '018', '019', '020', '021', '022', '023', '024', '025', '026', '027', '028', '029', '030', '031', '032', '033', '035']
+Missing masks: 0
+Masks without images: 0
+
+=== validate: file audit ===
+Images: 660; masks: 660
+Patients (4): ['036', '037', '038', '039']
+Missing masks: 0
+Masks without images: 0
+
+=== test: file audit ===
+Images: 540; masks: 540
+Patients (3): ['040', '041', '042']
+Missing masks: 0
+Masks without images: 0
+
+Patient overlap train/validate: []
+
+Patient overlap train/test: []
+
+Patient overlap validate/test: []
+
+=== train: sampled image-mask checks ===
+
+File: case_004_week_0_slice_0.nii.gz
+Image shape: (256, 128); mask shape: (256, 128)
+Image range: 0.000 to 411.000
+All values finite: True
+Mask labels/counts: {0.0: 3801, 1.0: 27240, 2.0: 928, 3.0: 799}
+Shapes match: True
+Affines match: True
+Voxel spacing: (np.float32(1.0), np.float32(1.0))
+
+File: case_019_week_5_slice_36.nii.gz
+Image shape: (256, 128); mask shape: (256, 128)
+Image range: 0.000 to 620.000
+All values finite: True
+Mask labels/counts: {0.0: 4743, 1.0: 20287, 2.0: 7032, 5.0: 706}
+Shapes match: True
+Affines match: True
+Voxel spacing: (np.float32(1.0), np.float32(1.0))
+
+File: case_035_week_0_slice_9.nii.gz
+Image shape: (256, 128); mask shape: (256, 128)
+Image range: 0.000 to 393.000
+All values finite: True
+Mask labels/counts: {0.0: 5839, 1.0: 23112, 2.0: 2647, 3.0: 1170}
+Shapes match: True
+Affines match: True
+Voxel spacing: (np.float32(1.0), np.float32(1.0))
+
+=== validate: sampled image-mask checks ===
+
+File: case_036_week_0_slice_0.nii.gz
+Image shape: (256, 128); mask shape: (256, 128)
+Image range: 0.000 to 288.000
+All values finite: True
+Mask labels/counts: {0.0: 5690, 1.0: 25191, 2.0: 1442, 3.0: 445}
+Shapes match: True
+Affines match: True
+Voxel spacing: (np.float32(1.0), np.float32(1.0))
+
+File: case_039_week_2_slice_36.nii.gz
+Image shape: (256, 128); mask shape: (256, 128)
+Image range: 0.000 to 450.000
+All values finite: True
+Mask labels/counts: {0.0: 4406, 1.0: 21635, 2.0: 6251, 3.0: 259, 5.0: 217}
+Shapes match: True
+Affines match: True
+Voxel spacing: (np.float32(1.0), np.float32(1.0))
+
+File: case_039_week_7_slice_9.nii.gz
+Image shape: (256, 128); mask shape: (256, 128)
+Image range: 0.000 to 507.000
+All values finite: True
+Mask labels/counts: {0.0: 4043, 1.0: 23875, 2.0: 3839, 3.0: 740, 5.0: 271}
+Shapes match: True
+Affines match: True
+Voxel spacing: (np.float32(1.0), np.float32(1.0))
+
+=== test: sampled image-mask checks ===
+
+File: case_040_week_0_slice_0.nii.gz
+Image shape: (256, 128); mask shape: (256, 128)
+Image range: 0.000 to 511.000
+All values finite: True
+Mask labels/counts: {0.0: 4818, 1.0: 24487, 2.0: 967, 3.0: 2496}
+Shapes match: True
+Affines match: True
+Voxel spacing: (np.float32(1.0), np.float32(1.0))
+
+File: case_040_week_4_slice_36.nii.gz
+Image shape: (256, 128); mask shape: (256, 128)
+Image range: 0.000 to 362.000
+All values finite: True
+Mask labels/counts: {0.0: 4935, 1.0: 21256, 2.0: 6108, 3.0: 64, 4.0: 405}
+Shapes match: True
+Affines match: True
+Voxel spacing: (np.float32(1.0), np.float32(1.0))
+
+File: case_042_week_0_slice_9.nii.gz
+Image shape: (256, 128); mask shape: (256, 128)
+Image range: 0.000 to 533.000
+All values finite: True
+Mask labels/counts: {0.0: 4829, 1.0: 24930, 2.0: 1990, 3.0: 1011, 5.0: 8}
+Shapes match: True
+Affines match: True
+Voxel spacing: (np.float32(1.0), np.float32(1.0))
