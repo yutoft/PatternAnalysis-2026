@@ -1,8 +1,9 @@
-HipMRI Segmentation with a 2D improved U-Net
-Feasibility Review
+# HipMRI Segmentation with a 2D improved U-Net
+# Feasibility Review
 1. User Need, Scope & Acceptance Criteria:
     This project will investigate a prototype that produces
-    anatomical segmentation masks from the supplied HipMRI 2D slices. 
+    anatomical segmentation masks from the supplied HipMRI 2D slices
+    for an imaging specialist to review. 
     A standard 2D U-Net will be compared with a 2D
     Improved U-Net to investigate whether the improved 
     architecture reduces boundary errors enough too justify
@@ -17,7 +18,7 @@ Feasibility Review
         - Examine 3-5 failure cases to identify where the 
             predicted masks would need correction by a 
             specialist
-        - Run both models on the Rangpur GPU, recording
+        - Run both models on one Rangpur GPU, recording
             peak GPU memory and inference time to judge
             whether any improvement is worth the extra
             resources
@@ -48,9 +49,9 @@ Feasibility Review
     segmentation.
 4. Risks, Budget & Fallback:
     Main risks include difficulty segmenting small regions and 
-    boundaries, limited GPU availabilities due to large cohort
+    boundaries, possible delays obtaining GPU resources
     and overfitting to the training patients. A small baseline
-    training test will first be run on Rangpur to estimate
+    training test will first be run on one Rangpur GPU to estimate
     training time and memory use. If this memory use is too high,
     the batch size or model size can be reduced. If the Improved
     U-Net does not perform better than the standard U-Net baseline,
