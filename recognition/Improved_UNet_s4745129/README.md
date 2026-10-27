@@ -57,3 +57,11 @@
     U-Net does not perform better than the standard U-Net baseline,
     the pros and cons can be discussed and whether its extra 
     complexity is worthwhile.
+
+# Preprocessing
+Images were normalised using per-image z-score normalisation. 
+Image-mask pairs with dimensions that were different to 256x128 were
+resized to this size for batching. Bilinear interpolation was used for
+images and nearest neighbour interpolation for masks to preserve the 
+class labels. Since resizing can change proportions, the same 
+preprocessing was applied to both models for a consistent comparison.
