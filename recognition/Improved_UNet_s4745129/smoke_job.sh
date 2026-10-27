@@ -17,9 +17,5 @@ conda activate torch
 # Go to project folder
 cd "$HOME/PatternAnalysis-2026/recognition/Improved_UNet_s4745129"
 
-# Limit CPU threads to requested allocation
-export OMP_NUM_THREADS=2
-export MKL_NUM_THREADS=2
-
 # Run short training check
 python -u train.py --smoke

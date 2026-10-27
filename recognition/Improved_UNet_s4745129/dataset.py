@@ -69,12 +69,28 @@ class HipMRIDataset(Dataset):
         # Per-image z-score normalisation; constant images become zero.
         image = (image - image.mean()) / max(float(image.std()), 1e-8)
 
-        # Image: [channels, height, width]. Mask: [height, width].
         image = torch.from_numpy(image).unsqueeze(0)
         mask = torch.from_numpy(mask.astype(np.int64))
 
-        return image, mask
+        # Resize image and mask to same fixed dimensions for batching
+        target_size = (256, 128)
 
+        if image.shape[1:] != target_size:
+            image = F.interpolate(
+                image.unsqueeze(0),
+                size=target_size,
+                mode="bilinear",
+                align_corners=False,
+            ).squeeze(0)
+
+            # Nearest neighbour keeps original class values
+            mask = F.interpolate(
+                mask.unsqueeze(0).unsqueeze(0).float(),
+                size=target_size,
+                mode="nearest",
+            ).squeeze(0).squeeze(0).long()
+
+        return image, mask
 
 def masks_to_one_hot(masks):
     """Convert batched integer masks [B,H,W] to [B,6,H,W]."""
