@@ -1,0 +1,224 @@
+{
+  "split": "validate",
+  "dataset_slices": 660,
+  "evaluated_slices": 660,
+  "partial_data": false,
+  "smoke_checkpoint_used": false,
+  "device": "cuda",
+  "inference_precision": "float32",
+  "batch_size": 4,
+  "num_workers": 0,
+  "preprocessing": "Existing HipMRIDataset: per-slice z-score; bilinear images and nearest masks to 256x128",
+  "labels": "Numeric IDs only; anatomical names and background ID are not verified",
+  "metric_definition": "Per-class Dice/IoU from pooled pixels across evaluated resized slices; absent in both is null",
+  "figure_selection": "Lowest mean of both models' per-slice mean Dice over labels 1-5; label 0 excluded by explicit convention",
+  "models": {
+    "baseline": {
+      "checkpoint": "/home/Student/s4745129/PatternAnalysis-2026/recognition/Improved_UNet_s4745129/results/baseline/train30_708639/best_unet.pt",
+      "sha256": "6aef9f9af6349b6ca7d766e70daed4401178207b74b6cc6328916c1fba93fb9b",
+      "epoch": 9,
+      "checkpoint_validation_mean_dice": 0.9272311337972218,
+      "config": {
+        "num_classes": 6,
+        "batch_size": 4,
+        "learning_rate": 0.0001,
+        "seed": 42,
+        "smoke": false,
+        "model": "baseline"
+      },
+      "parameters": 31036806,
+      "confusion_matrix": [
+        [
+          2950714,
+          24947,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4530,
+          15003501,
+          163422,
+          12437,
+          12899,
+          13747
+        ],
+        [
+          68,
+          184685,
+          2649435,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          56551,
+          280,
+          319867,
+          0,
+          1242
+        ],
+        [
+          1,
+          10224,
+          0,
+          0,
+          110918,
+          186
+        ],
+        [
+          1,
+          12442,
+          78,
+          4404,
+          308,
+          89986
+        ]
+      ],
+      "dice": [
+        0.995018188409157,
+        0.9837430464776349,
+        0.9382832130126908,
+        0.8951647997985042,
+        0.903778304692529,
+        0.8474055937470572
+      ],
+      "iou": [
+        0.99008576765592,
+        0.9680062144401214,
+        0.8837415255297326,
+        0.8102247282085575,
+        0.8244484747576857,
+        0.7352157785512362
+      ],
+      "mean_dice_all_labels": 0.9272321910229288,
+      "mean_dice_labels_1_to_5": 0.9136749915456832,
+      "mean_iou_all_labels": 0.868620414857209,
+      "mean_iou_labels_1_to_5": 0.8443273442974666
+    },
+    "improved": {
+      "checkpoint": "/home/Student/s4745129/PatternAnalysis-2026/recognition/Improved_UNet_s4745129/results/improved/train30_708640/best_unet.pt",
+      "sha256": "8048b322351240314654dd1e3496985295ce61f824dc9f4d7cde9f33c0112a9a",
+      "epoch": 19,
+      "checkpoint_validation_mean_dice": 0.9055637018029356,
+      "config": {
+        "num_classes": 6,
+        "batch_size": 4,
+        "learning_rate": 0.0001,
+        "seed": 42,
+        "smoke": false,
+        "model": "improved"
+      },
+      "parameters": 2717186,
+      "confusion_matrix": [
+        [
+          2953690,
+          21971,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5938,
+          14988602,
+          169831,
+          13587,
+          9595,
+          22983
+        ],
+        [
+          1149,
+          197805,
+          2635188,
+          53,
+          0,
+          0
+        ],
+        [
+          19,
+          91308,
+          39,
+          285805,
+          0,
+          769
+        ],
+        [
+          2,
+          17337,
+          17,
+          121,
+          102958,
+          894
+        ],
+        [
+          539,
+          13039,
+          0,
+          4871,
+          66,
+          88704
+        ]
+      ],
+      "dice": [
+        0.9950112834803043,
+        0.9815526205479015,
+        0.9345847955497786,
+        0.8376747750876715,
+        0.8801785012053961,
+        0.8043197366810386
+      ],
+      "iou": [
+        0.9900720944669474,
+        0.9637735246331082,
+        0.8772024199073127,
+        0.7206888030420705,
+        0.7859989312161234,
+        0.6726879763394381
+      ],
+      "mean_dice_all_labels": 0.9055536187586818,
+      "mean_dice_labels_1_to_5": 0.8876620858143573,
+      "mean_iou_all_labels": 0.8350706249341667,
+      "mean_iou_labels_1_to_5": 0.8040703310276106
+    }
+  },
+  "figures": [
+    {
+      "path": "figures/lowest_01_index_516.png",
+      "index": 516,
+      "filename": "case_039_week_5_slice_41.nii.gz",
+      "baseline_mean_dice_labels_1_to_5": 0.47722785482681707,
+      "improved_mean_dice_labels_1_to_5": 0.385449521636572
+    },
+    {
+      "path": "figures/lowest_02_index_515.png",
+      "index": 515,
+      "filename": "case_039_week_5_slice_40.nii.gz",
+      "baseline_mean_dice_labels_1_to_5": 0.46219773854744856,
+      "improved_mean_dice_labels_1_to_5": 0.5452849018054741
+    },
+    {
+      "path": "figures/lowest_03_index_120.png",
+      "index": 120,
+      "filename": "case_038_week_0_slice_0.nii.gz",
+      "baseline_mean_dice_labels_1_to_5": 0.45902239223313085,
+      "improved_mean_dice_labels_1_to_5": 0.6240852585874358
+    },
+    {
+      "path": "figures/lowest_04_index_333.png",
+      "index": 333,
+      "filename": "case_039_week_2_slice_39.nii.gz",
+      "baseline_mean_dice_labels_1_to_5": 0.5804141954136546,
+      "improved_mean_dice_labels_1_to_5": 0.5433711867158383
+    },
+    {
+      "path": "figures/lowest_05_index_266.png",
+      "index": 266,
+      "filename": "case_039_week_1_slice_32.nii.gz",
+      "baseline_mean_dice_labels_1_to_5": 0.5445392593623157,
+      "improved_mean_dice_labels_1_to_5": 0.5793396089045085
+    }
+  ]
+}
