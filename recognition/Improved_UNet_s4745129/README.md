@@ -102,3 +102,5 @@ images and nearest neighbour interpolation for masks to preserve the
 class labels. Since resizing can change proportions, the same 
 preprocessing was applied to both models for a consistent comparison.
 
+# Dataset Acknowledgement
+Data was provided by the HipMRI Study. This project uses the course-supplied 2D MRI slices on Rangpur. The source dataset is *Labelled weekly MR images of the male pelvis* by Dowling and Greer (2021) [3]. The associated MRI acquisition and treatment-planning study is described by Dowling et al. (2015) [4].
