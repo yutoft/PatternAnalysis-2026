@@ -1,4 +1,40 @@
-# HipMRI Segmentation with a 2D improved U-Net
+## HipMRI Segmentation with a 2D improved U-Net
+
+# Description of the Algorithm
+# Baseline UNet 
+The baseline was adapted from the demo 2 UNet implementation. It uses
+double convolution blocks with batch normalisation and ReLU, max pooling
+for downsampling, and transposed convolutions for upsampling. Skip 
+connections combine encoder features with decoder features to help 
+preserve spatial detail. The model takes one-channel MRI slices and 
+produces six class scores per pixel.
+# Improved UNet
+The Improved UNet is a 2D adaptation of the architecture described by
+the source given in the reference list [2], specifically Section 2.1 
+and Figure 1. The original paper uses 3D brain MRI volumes, while this
+implementation uses 2D convolutions for HipMRI slices.
+    The changes from the baseline include:
+        Residual context blocks with dropout probability 0.3
+        Stride = 2 convolutions instead of max pooling
+        Instance normalisation instead of batch normalisation
+        Leaky ReLU with a negative slope of 0.01
+        Nearest neighbour upsampling followed by convolution instead of
+            transposed convolution
+        Localisation blocks that combine encoder and decoder features
+        Segmentation heads at three decoder resolutions, with there
+            class scores upsampled and added together before calculating
+            the loss
+The encoder uses 16, 32, 64, 128, 256 channels. The implementation uses
+Dropout2d for channel-wise dropout. These aare documented choices for
+adapting the paper to 2D.
+The baseline has 31036806 parameters, while the Improved UNet has 2717186.
+Since channel widths and several architectural components differ, this 
+experiment compares the complete model configurations rather than measuring
+the effect of any single change.
+Both models passed checks for the expected output shape of [1,, 6, 256, 128].
+The Improved UNet also passed a backward-pass check, with finite gradients 
+for every trainable parameter. 
+
 # Feasibility Review
 1. User Need, Scope & Acceptance Criteria:
     This project will investigate a prototype that produces
@@ -66,37 +102,3 @@ images and nearest neighbour interpolation for masks to preserve the
 class labels. Since resizing can change proportions, the same 
 preprocessing was applied to both models for a consistent comparison.
 
-# Model Architecture
-# Baseline UNet 
-The baseline was adapted from the demo 2 UNet implementation. It uses
-double convolution blocks with batch normalisation and ReLU, max pooling
-for downsampling, and transposed convolutions for upsampling. Skip 
-connections combine encoder features with decoder features to help 
-preserve spatial detail. The model takes one-channel MRI slices and 
-produces six class scores per pixel.
-# Improved UNet
-The Improved UNet is a 2D adaptation of the architecture described by
-the source given in the reference list [2], specifically Section 2.1 
-and Figure 1. The original paper uses 3D brain MRI volumes, while this
-implementation uses 2D convolutions for HipMRI slices.
-    The changes from the baseline include:
-        Residual context blocks with dropout probability 0.3
-        Stride = 2 convolutions instead of max pooling
-        Instance normalisation instead of batch normalisation
-        Leaky ReLU with a negative slope of 0.01
-        Nearest neighbour upsampling followed by convolution instead of
-            transposed convolution
-        Localisation blocks that combine encoder and decoder features
-        Segmentation heads at three decoder resolutions, with there
-            class scores upsampled and added together before calculating
-            the loss
-The encoder uses 16, 32, 64, 128, 256 channels. The implementation uses
-Dropout2d for channel-wise dropout. These aare documented choices for
-adapting the paper to 2D.
-The baseline has 31036806 parameters, while the Improved UNet has 2717186.
-Since channel widths and several architectural components differ, this 
-experiment compares the complete model configurations rather than measuring
-the effect of any single change.
-Both models passed checks for the expected output shape of [1,, 6, 256, 128].
-The Improved UNet also passed a backward-pass check, with finite gradients 
-for every trainable parameter. 

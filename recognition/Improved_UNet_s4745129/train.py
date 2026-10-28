@@ -31,7 +31,7 @@ def train_epoch(loader, model, optimizer, scaler, device, max_batches=None):
     ce_loss_fn = nn.CrossEntropyLoss()
     total_loss = 0.0
     total_samples = 0
-
+    consecutive_overflows = 0
     batches = loader if max_batches is None else islice(loader, max_batches)
 
     for step, (images, masks) in enumerate(batches, start=1):
@@ -50,9 +50,37 @@ def train_epoch(loader, model, optimizer, scaler, device, max_batches=None):
         # Backward pass and check gradients before updating weights
         scaler.scale(loss).backward()
         scaler.unscale_(optimizer)
-        torch.nn.utils.clip_grad_norm_(
-            model.parameters(), max_norm=1.0, error_if_nonfinite=True
-        )
+
+        # Check all gradients before attempting to clip them
+        gradients_finite = torch.stack([
+            torch.isfinite(p.grad).all()
+            for p in model.parameters()
+            if p.grad is not None
+        ]).all()
+
+        if gradients_finite:
+            consecutive_overflows = 0
+
+            torch.nn.utils.clip_grad_norm_(
+                model.parameters(),
+                max_norm=1.0,
+                error_if_nonfinite=True,
+            )
+        else:
+            consecutive_overflows += 1
+
+            print(
+                f"Step {step}: non-finite gradients; "
+                f"AMP will skip this update. Scale={scaler.get_scale()}",
+                flush=True,
+            )
+
+            # Stop if this becomes persistent rather than occasional
+            if consecutive_overflows >= 10:
+                raise RuntimeError("10 consecutive non-finite gradient batches")
+
+        # unscale_ already recorded any non-finite gradients.
+        # GradScaler skips unsafe updates and adjusts its scale.
         scaler.step(optimizer)
         scaler.update()
 
