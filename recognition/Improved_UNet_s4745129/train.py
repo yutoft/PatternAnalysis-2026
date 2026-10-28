@@ -11,7 +11,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 
 from dataset import HipMRIDataset, NUM_CLASSES, masks_to_one_hot
-from modules import UNET
+from modules import UNET, ImprovedUNet
 
 
 def dice_loss(logits, targets):
@@ -124,7 +124,12 @@ def main():
     parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--smoke", action="store_true")
-    parser.add_argument("--output", type=Path, default=Path("results/baseline"))
+    parser.add_argument("--output", type=Path, default=None)
+    parser.add_argument(
+    "--model",
+    choices=["baseline", "improved"],
+    default="baseline",
+    )
     args = parser.parse_args()
 
     if args.epochs < 1 or args.batch_size < 1 or args.workers < 0:
@@ -138,7 +143,14 @@ def main():
     device = torch.device("cuda")
 
     # Separate smoke-test files from full training results
-    output = args.output / "smoke" if args.smoke else args.output
+    # Separate results by model and run type
+    output = args.output if args.output is not None else (
+        Path("results") / args.model
+    )
+
+    if args.smoke:
+        output = output / "smoke"
+
     output.mkdir(parents=True, exist_ok=True)
 
     train_loader = DataLoader(
@@ -157,7 +169,13 @@ def main():
         pin_memory=True,
     )
 
-    model = UNET(in_channels=1, out_channels=NUM_CLASSES).to(device)
+    # Select architecture; keep training settings the same
+    if args.model == "baseline":
+        model = UNET(in_channels=1, out_channels=NUM_CLASSES)
+    else:
+        model = ImprovedUNet(in_channels=1, out_channels=NUM_CLASSES)
+
+    model = model.to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     scaler = torch.amp.GradScaler("cuda")
 
@@ -172,6 +190,8 @@ def main():
 
     print("GPU:", torch.cuda.get_device_name(0), flush=True)
     print("Smoke test:", args.smoke, flush=True)
+    print("Model:", args.model, flush=True)
+    print("Parameters:", sum(p.numel() for p in model.parameters()), flush=True)
 
     for epoch in range(1, epochs + 1):
         torch.cuda.reset_peak_memory_stats()
@@ -227,6 +247,7 @@ def main():
                     "learning_rate": args.lr,
                     "seed": 42,
                     "smoke": args.smoke,
+                    "model": args.model,
                 },
             }, checkpoint_path)
             print("Saved checkpoint:", checkpoint_path, flush=True)
